@@ -1,4 +1,4 @@
-
+import 'dart:math';
 
 int calculate() {
   return 6 * 7;
@@ -39,8 +39,24 @@ class Bicycle {
   String toString() => 'Bicycle: $speed mph';
 }
 
+class Rectangle {
+  int width;
+  int height;
+  Point origin;
+
+  Rectangle({this.origin = const Point(0, 0), this.width = 0, this.height = 0});
+
+  @override
+  String toString() => 'Origin: (${origin.x}, ${origin.y}), width: $width, height: $height';
+}
+
 main(List<String> arguments) {
   print('Hello world: ${calculate()}!');
   var bike = new Bicycle(2, 1);
   print(bike);
+
+  print(Rectangle(origin: const Point(10, 20), width: 100, height: 200));
+  print(Rectangle(origin: const Point(10, 10)));
+  print(Rectangle(width: 200));
+  print(Rectangle());
 }
