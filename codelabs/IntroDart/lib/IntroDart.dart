@@ -47,7 +47,46 @@ class Rectangle {
   Rectangle({this.origin = const Point(0, 0), this.width = 0, this.height = 0});
 
   @override
-  String toString() => 'Origin: (${origin.x}, ${origin.y}), width: $width, height: $height';
+  String toString() =>
+      'Origin: (${origin.x}, ${origin.y}), width: $width, height: $height';
+}
+
+abstract class Shape {
+  factory Shape(String type) {
+    if (type == 'circle') return Circle(2);
+    if (type == 'square') return Square(2);
+    // To trigger exception, don't implement a check for 'triangle'.
+    throw 'Can\'t create $type.';
+  }
+  num get area;
+}
+
+class Circle implements Shape {
+  final num radius;
+  Circle(this.radius);
+  /**
+   * @override
+   * num get ares {
+   * }
+   */
+  num get area => pi * pow(radius, 2);
+}
+
+class Square implements Shape {
+  final num side;
+  Square(this.side);
+  /**
+   * @override
+   * num get ares {
+   * }
+   */
+  num get area => pow(side, 2);
+}
+
+Shape shapeFactory(String type) {
+  if (type == 'circle') return Circle(2);
+  if (type == 'square') return Square(2);
+  throw 'Can\'t create $type.';
 }
 
 main(List<String> arguments) {
@@ -59,4 +98,19 @@ main(List<String> arguments) {
   print(Rectangle(origin: const Point(10, 10)));
   print(Rectangle(width: 200));
   print(Rectangle());
+
+//  final circle = Circle(2);
+//  final square = Square(2);
+  final circle = shapeFactory('circle');
+  final square = shapeFactory('square');
+  print(circle.area);
+  print(square.area);
+
+  try {
+    print(Shape('circle').area);
+    print(Shape('square').area);
+    print(Shape('triangle').area);
+  } catch (err) {
+    print(err);
+  }
 }
