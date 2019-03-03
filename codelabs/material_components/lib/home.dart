@@ -90,7 +90,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       // TODO: Add app bar (102)
       appBar: AppBar(
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         // TODO: Add Buttons and title (102)
         leading: IconButton(
           icon: Icon(
