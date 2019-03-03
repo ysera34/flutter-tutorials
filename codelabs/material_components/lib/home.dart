@@ -86,44 +86,47 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: Return an AsymmetricView (104)
+    return AsymmetricView(
+      products: ProductsRepository.loadProducts(Category.all),
+    );
     // TODO: Pass Category variable to AsymmetricView (104)
-    return Scaffold(
-      // TODO: Add app bar (102)
-      appBar: AppBar(
-        brightness: Brightness.dark,
-        // TODO: Add Buttons and title (102)
-        leading: IconButton(
-          icon: Icon(
-            Icons.menu,
-            semanticLabel: 'menu',
-          ),
-          onPressed: () {
-            print('Menu button');
-          },
-        ),
-        title: Text('SHRINE'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.search,
-              semanticLabel: 'search',
-            ),
-            onPressed: () {
-              print('Search button');
-            },
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.tune,
-              semanticLabel: 'filter',
-            ),
-            onPressed: () {
-              print('Filter button');
-            },
-          ),
-        ],
-      ),
-      // TODO: Add a grid view (102)
+//    return Scaffold(
+//      // TODO: Add app bar (102)
+//      appBar: AppBar(
+//        brightness: Brightness.dark,
+//        // TODO: Add Buttons and title (102)
+//        leading: IconButton(
+//          icon: Icon(
+//            Icons.menu,
+//            semanticLabel: 'menu',
+//          ),
+//          onPressed: () {
+//            print('Menu button');
+//          },
+//        ),
+//        title: Text('SHRINE'),
+//        actions: <Widget>[
+//          IconButton(
+//            icon: Icon(
+//              Icons.search,
+//              semanticLabel: 'search',
+//            ),
+//            onPressed: () {
+//              print('Search button');
+//            },
+//          ),
+//          IconButton(
+//            icon: Icon(
+//              Icons.tune,
+//              semanticLabel: 'filter',
+//            ),
+//            onPressed: () {
+//              print('Filter button');
+//            },
+//          ),
+//        ],
+//      ),
+//      // TODO: Add a grid view (102)
 //      body: GridView.count(
 //        crossAxisCount: 2,
 //        padding: EdgeInsets.all(16.0),
@@ -131,7 +134,7 @@ class HomePage extends StatelessWidget {
 //        // TODO: Build a grid of cards (102)
 //        children: _buildGridCards(context)
 //      ),
-      body: AsymmetricView(products: ProductsRepository.loadProducts(Category.all)),
-    );
+//      body: AsymmetricView(products: ProductsRepository.loadProducts(Category.all)),
+//    );
   }
 }

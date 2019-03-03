@@ -15,9 +15,12 @@
 import 'package:flutter/material.dart';
 import 'supplemental/cut_corners_border.dart';
 
+import 'backdrop.dart';
 import 'home.dart';
 import 'login.dart';
 import 'colors.dart';
+
+import 'model/product.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
 class ShrineApp extends StatelessWidget {
@@ -27,10 +30,16 @@ class ShrineApp extends StatelessWidget {
     return MaterialApp(
       title: 'Shrine',
       // TODO: Change home: to a Backdrop with a HomePage frontLayer (104)
-      home: HomePage(),
-      // TODO: Make currentCategory field take _currentCategory (104)
-      // TODO: Pass _currentCategory for frontLayer (104)
-      // TODO: Change backLayer field value to CategoryMenuPage (104)
+      home: Backdrop(
+        // TODO: Make currentCategory field take _currentCategory (104)
+        currentCategory: Category.all,
+        // TODO: Pass _currentCategory for frontLayer (104)
+        frontLayer: HomePage(),
+        // TODO: Change backLayer field value to CategoryMenuPage (104)
+        backLayer: Container(color: kShrinePink100),
+        frontTitle: Text('SHRINE'),
+        backTitle: Text('MENU'),
+      ),
       initialRoute: '/login',
       onGenerateRoute: _getRoute,
       // TODO: Add a theme (103)
@@ -57,14 +66,14 @@ final ThemeData _kShrineTheme = _buildShrineTheme();
 ThemeData _buildShrineTheme() {
   final ThemeData base = ThemeData.dark();
   return base.copyWith(
-    accentColor: kShrineAltDarkGrey,
-    primaryColor: kShrineAltDarkGrey,
+    accentColor: kShrineBrown900,
+    primaryColor: kShrinePink100,
     buttonTheme: base.buttonTheme.copyWith(
-      buttonColor: kShrineAltYellow,
+      buttonColor: kShrinePink100,
       textTheme: ButtonTextTheme.normal,
     ),
-    scaffoldBackgroundColor: kShrineAltDarkGrey,
-    cardColor: kShrineAltDarkGrey,
+    scaffoldBackgroundColor: kShrineBackgroundWhite,
+    cardColor: kShrineBackgroundWhite,
     textSelectionColor: kShrinePink100,
     errorColor: kShrineErrorRed,
     // TODO: Add the text themes (103)
@@ -73,7 +82,7 @@ ThemeData _buildShrineTheme() {
     accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
     // TODO: Add the icon themes (103)
     primaryIconTheme: base.iconTheme.copyWith(
-      color: kShrineAltYellow,
+      color: kShrineBrown900,
     ),
     // TODO: Decorate the inputs (103)
     inputDecorationTheme: InputDecorationTheme(
@@ -96,7 +105,7 @@ TextTheme _buildShrineTextTheme(TextTheme base) {
     ),
   ).apply(
     fontFamily: 'Rubik',
-    displayColor: kShrineSurfaceWhite,
-    bodyColor: kShrineSurfaceWhite,
+    displayColor: kShrineBrown900,
+    bodyColor: kShrineBrown900,
   );
 }
