@@ -34,23 +34,25 @@ class TwoProductCardColumn extends StatelessWidget {
       double heightOfCards = (constraints.biggest.height - spacerHeight) / 2.0;
       double heightOfImages = heightOfCards - ProductCard.kTextBoxHeight;
       // TODO: Change imageAspectRatio calculation (104)
-      double imageAspectRatio = constraints.biggest.width / heightOfImages;
+//      double imageAspectRatio = constraints.biggest.width / heightOfImages;
+      double imageAspectRatio =
+        (heightOfImages >= 0.0 && constraints.biggest.width > heightOfImages)
+          ? constraints.biggest.width / heightOfImages
+          : 33 / 49;
 
       // TODO: Replace Column with a ListView (104)
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      return ListView(
         children: <Widget>[
           Padding(
             padding: EdgeInsetsDirectional.only(start: 28.0),
             child: top != null
-                ? ProductCard(
-                    imageAspectRatio: imageAspectRatio,
-                    product: top,
-                  )
-                : SizedBox(
-                    height: heightOfCards,
-                  ),
+              ? ProductCard(
+                  imageAspectRatio: imageAspectRatio,
+                  product: top,
+                )
+              : SizedBox(
+                  height: heightOfCards,
+                ),
           ),
           SizedBox(height: spacerHeight),
           Padding(
@@ -62,6 +64,31 @@ class TwoProductCardColumn extends StatelessWidget {
           ),
         ],
       );
+//      return Column(
+//        mainAxisAlignment: MainAxisAlignment.center,
+//        crossAxisAlignment: CrossAxisAlignment.center,
+//        children: <Widget>[
+//          Padding(
+//            padding: EdgeInsetsDirectional.only(start: 28.0),
+//            child: top != null
+//                ? ProductCard(
+//                    imageAspectRatio: imageAspectRatio,
+//                    product: top,
+//                  )
+//                : SizedBox(
+//                    height: heightOfCards,
+//                  ),
+//          ),
+//          SizedBox(height: spacerHeight),
+//          Padding(
+//            padding: EdgeInsetsDirectional.only(end: 28.0),
+//            child: ProductCard(
+//              imageAspectRatio: imageAspectRatio,
+//              product: bottom,
+//            ),
+//          ),
+//        ],
+//      );
     });
   }
 }
@@ -74,16 +101,27 @@ class OneProductCardColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: Replace Column with a ListView (104)
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
+    return ListView(
+      reverse: true,
       children: <Widget>[
-        ProductCard(
-          product: product,
-        ),
         SizedBox(
           height: 40.0,
         ),
+        ProductCard(
+          product: product,
+        ),
       ],
     );
+//    return Column(
+//      mainAxisAlignment: MainAxisAlignment.end,
+//      children: <Widget>[
+//        ProductCard(
+//          product: product,
+//        ),
+//        SizedBox(
+//          height: 40.0,
+//        ),
+//      ],
+//    );
   }
 }
