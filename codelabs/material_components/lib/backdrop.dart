@@ -47,6 +47,16 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
   }
 
   // TODO: Add override for didUpdateWidget (104)
+  @override
+  void didUpdateWidget(Backdrop oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.currentCategory != oldWidget.currentCategory) {
+      _toggleBackdropLayerVisibility();
+    } else if (!_frontLayerVisible) {
+      _controller.fling(velocity: _kFlingVelocity);
+    }
+  }
 
   @override
   void dispose() {
@@ -93,6 +103,7 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
           child: _FrontLayer(
             // TODO: Wrap front layer in _FrontLayer (104)
             // TODO: Implement onTap property on _BackdropState (104)
+            onTap: _toggleBackdropLayerVisibility,
             child: widget.frontLayer
           ),
         ),
@@ -149,9 +160,11 @@ class _FrontLayer extends StatelessWidget {
   // TODO: Add on-tap callback (104)
   const _FrontLayer({
     Key key,
+    this.onTap,
     this.child,
   }) : super(key: key);
 
+  final VoidCallback onTap;
   final Widget child;
 
   @override
@@ -165,6 +178,14 @@ class _FrontLayer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           // TODO: Add a GestureDetector (104)
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTap,
+            child: Container(
+              height: 40.0,
+              alignment: AlignmentDirectional.centerStart,
+            ),
+          ),
           Expanded(
             child: child,
           )
