@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import 'model/product.dart';
+import 'login.dart';
 
 // TODO: Add velocity constant (104)
 const double _kFlingVelocity = 2.0;
@@ -30,6 +31,90 @@ class Backdrop extends StatefulWidget {
 }
 
 // TODO: Add _BackdropTitle class (104)
+class _BackdropTitle extends AnimatedWidget {
+  final Function onPress;
+  final Widget frontTitle;
+  final Widget backTitle;
+
+  const _BackdropTitle({
+    Key key,
+    Listenable listenable,
+    this.onPress,
+    @required this.frontTitle,
+    @required this.backTitle,
+  })  : assert(frontTitle != null),
+        assert(backTitle != null),
+        super(key: key, listenable: listenable);
+
+  @override
+  Widget build(BuildContext context) {
+    final Animation<double> animation = this.listenable;
+
+    return DefaultTextStyle(
+      style: Theme.of(context).primaryTextTheme.title,
+      softWrap: false,
+      overflow: TextOverflow.ellipsis,
+      child: Row(children: <Widget>[
+        // branded icon
+        SizedBox(
+          width: 72.0,
+          child: IconButton(
+            padding: EdgeInsets.only(right: 8.0),
+            onPressed: this.onPress,
+            icon: Stack(children: <Widget>[
+              Opacity(
+                opacity: animation.value,
+                child: ImageIcon(AssetImage('assets/slanted_menu.png')),
+              ),
+              FractionalTranslation(
+                translation: Tween<Offset>(
+                  begin: Offset.zero,
+                  end: Offset(1.0, 0.0),
+                ).evaluate(animation),
+                child: ImageIcon(AssetImage('assets/diamond.png')),
+              )
+            ]),
+          ),
+        ),
+        // Here, we do a custom cross fade between backTitle and frontTitle.
+        // This makes a smooth animation between the two texts.
+        Stack(
+          children: <Widget>[
+            Opacity(
+              opacity: CurvedAnimation(
+                parent: ReverseAnimation(animation),
+                curve: Interval(0.5, 1.0),
+              ).value,
+              child: FractionalTranslation(
+                translation: Tween<Offset>(
+                  begin: Offset.zero,
+                  end: Offset(0.5, 0.0),
+                ).evaluate(animation),
+                child: backTitle,
+              ),
+            ),
+            Opacity(
+              opacity: CurvedAnimation(
+                parent: animation,
+                curve: Interval(0.5, 1.0),
+              ).value,
+              child: FractionalTranslation(
+                translation: Tween<Offset>(
+                  begin: Offset(-0.25, 0.0),
+                  end: Offset.zero,
+                ).evaluate(animation),
+                child: frontTitle,
+              ),
+            ),
+          ],
+        )
+      ]),
+    );
+  }
+
+
+}
+
 // TODO: Add _BackdropState class (104)
 class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin {
   final GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
@@ -118,31 +203,45 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
       elevation: 0.0,
       titleSpacing: 0.0,
       // TODO: Remove leading property (104)
-      // TODO: Create title with _BackdropTitle parameter (104)
       // TODO: Replace leading menu icon with IconButton (104)
       leading: IconButton(
         icon: Icon(Icons.menu),
         onPressed: _toggleBackdropLayerVisibility,
       ),
-      title: Text('SHRINE'),
+      // TODO: Create title with _BackdropTitle parameter (104)
+      // title: Text('SHRINE'),
+      title: _BackdropTitle(
+        listenable: _controller.view,
+        onPress: _toggleBackdropLayerVisibility,
+        frontTitle: widget.frontTitle,
+        backTitle: widget.backTitle
+      ),
       actions: <Widget>[
         // TODO: Add shortcut to login screen from trailing icons (104)
         IconButton(
           icon: Icon(
             Icons.search,
-            semanticLabel: 'search',
+            semanticLabel: 'login',
           ),
           onPressed: () {
             // TODO: Add open login (104)
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+            );
           },
         ),
         IconButton(
           icon: Icon(
             Icons.tune,
-            semanticLabel: 'filter',
+            semanticLabel: 'login',
           ),
           onPressed: () {
             // TODO: Add open login (104)
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+            );
           },
         ),
       ],
